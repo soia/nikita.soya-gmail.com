@@ -15,9 +15,9 @@ const initialState = {
 export default handleActions(
     {
         [setStatus]: (state, { payload }) => ({ ...state, status: payload }),
-        [resetStatus]: (state) => ({ ...state, status: false }),
+        [resetStatus]: state => ({ ...state, status: false }),
     },
     initialState,
 );
 
-export const statusSelector = (state) => state[REDUCER_NAME].status;
+export const statusSelector = state => state[REDUCER_NAME].status;

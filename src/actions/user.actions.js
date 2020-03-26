@@ -1,29 +1,30 @@
+/* eslint-disable  */
 import { AsyncStorage } from 'react-native';
 import {
     userConstants, tradePath, authModalConstants,
 } from '../constants';
 import { userService } from '../services/user.service';
 import { authModalActions } from './authModal.actions';
-import { alertActions } from '.';
+import { alertActions } from './alert.actions';
 
 function login(username, password, history) {
-    function request(user) {
+    function loginRequestActions(user) {
         return { type: userConstants.LOGIN_REQUEST, user };
     }
-    function success(user) {
+    function loginSuccessActions(user) {
         return { type: userConstants.LOGIN_SUCCESS, user };
     }
-    function failure(error) {
+    function loginFailureActions(error) {
         return { type: userConstants.LOGIN_FAILURE, error };
     }
 
     return dispatch => {
-        dispatch(request({ username }));
+        dispatch(loginRequestActions({ username }));
 
         userService.login(username, password, history)
             .then(user => {
-                dispatch(success(user.data));
-                dispatch(alertActions.success('Authorization successful'));
+                dispatch(loginSuccessActions(user.data));
+                dispatch(alertActions.alertActionsSuccess('Authorization successful'));
                 history.push(`${tradePath}`);
                 dispatch(authModalActions.closeModal());
                 console.log('Authorization successful');
@@ -32,8 +33,8 @@ function login(username, password, history) {
                 if (error.response) {
                     console.log(error.response.data.error_description);
                 }
-                dispatch(failure(error.toString()));
-                dispatch(alertActions.error(error.toString()));
+                dispatch(loginFailureActions(error.toString()));
+                dispatch(alertActions.alertActionsError(error.toString()));
             });
     };
 }

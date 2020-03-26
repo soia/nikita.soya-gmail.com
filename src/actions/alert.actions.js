@@ -2,11 +2,11 @@
 
 import { alertConstants } from '../constants';
 
-function success(message) {
+function alertActionsSuccess(message) {
     return { type: alertConstants.SUCCESS, message };
 }
 
-function error(message) {
+function alertActionsError(message) {
     return { type: alertConstants.ERROR, message };
 }
 
@@ -15,7 +15,7 @@ function clear() {
 }
 
 export const alertActions = {
-    success,
+    alertActionsSuccess,
     error,
     clear,
 };

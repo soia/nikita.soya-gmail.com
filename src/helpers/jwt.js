@@ -1,7 +1,6 @@
-/* eslint-disable import/no-cycle */
 import moment from 'moment';
 import { AsyncStorage } from 'react-native';
-import refreshToken from '../services';
+import refreshToken from '../services/refresh-token.service';
 
 const userJson = AsyncStorage.getItem('user');
 
