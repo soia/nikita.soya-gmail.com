@@ -1,19 +1,14 @@
 import React from 'react';
-import { StyleSheet, Text, View } from 'react-native';
-
-const styles = StyleSheet.create({
-    container: {
-        flex: 1,
-        backgroundColor: '#fff',
-        alignItems: 'center',
-        justifyContent: 'center',
-    },
-});
+import { NativeRouter, Route } from 'react-router-native';
+import Login from './auth/login';
+import Registration from './auth/registration/registration';
+import { registartionPath } from './constants/pathLocation';
 
 export default function Wallet() {
     return (
-        <View style={styles.container}>
-            <Text>Начнем!</Text>
-        </View>
+        <NativeRouter>
+            <Route exact path="/" component={Login} />
+            <Route path={registartionPath} component={Registration} />
+        </NativeRouter>
     );
 }
