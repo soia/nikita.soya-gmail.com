@@ -1,7 +1,9 @@
+/* eslint-disable global-require */
 import React, { Component } from 'react';
 import {
     View, Text, StyleSheet, ImageBackground,
 } from 'react-native';
+import SvgUri from 'expo-svg-uri';
 import { Link } from 'react-router-native';
 import { registartionPath } from '../../constants/pathLocation';
 import backgroundImage from '../images/background.jpg';
@@ -60,6 +62,13 @@ class Login extends Component {
                 <Link to={registartionPath} underlayColor="#f0f4f7">
                     <Text>Registration</Text>
                 </Link>
+                <View>
+                    <SvgUri
+                        width="200"
+                        height="200"
+                        source={require('../../../assets/qqq.svg')}
+                    />
+                </View>
             </View>
         );
     }
