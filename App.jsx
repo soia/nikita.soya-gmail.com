@@ -28,12 +28,6 @@ const App = () => {
     const fetchFonts = async () => {
         await Font.loadAsync({
             monserratRegular: require('./assets/fonts/Montserrat-Regular.ttf'),
-            monserratExtraBold: require('./assets/fonts/Montserrat-ExtraBold.ttf'),
-            monserratBold: require('./assets/fonts/Montserrat-Bold.ttf'),
-            monserratSemiBold: require('./assets/fonts/Montserrat-SemiBold.ttf'),
-            monserratMedium: require('./assets/fonts/Montserrat-Medium.ttf'),
-            monserratLight: require('./assets/fonts/Montserrat-Light.ttf'),
-            monserratThin: require('./assets/fonts/Montserrat-Thin.ttf'),
         });
     };
 
@@ -41,8 +35,8 @@ const App = () => {
         return (
             <AppLoading
                 startAsync={fetchFonts}
+                onError={err => console.log(err, 'Error in App.jsx')}
                 onFinish={() => { setfontloaded(true); }}
-                onError={console.warn}
             />
         );
     }

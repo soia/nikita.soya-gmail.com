@@ -8,9 +8,11 @@
     "eject": "expo eject"
   },
   "dependencies": {
+    "@use-expo/font": "^1.0.1",
     "axios": "^0.19.2",
     "expo": "~36.0.0",
-    "expo-font": "^8.1.0",
+    "expo-font": "8.0.0",
+    "expo-linear-gradient": "^8.1.0",
     "expo-localization": "^8.1.0",
     "expo-svg-uri": "^1.1.0",
     "history": "^4.10.1",
@@ -21,6 +23,7 @@
     "react-dom": "~16.9.0",
     "react-i18next": "^11.3.4",
     "react-native": "https://github.com/expo/react-native/archive/sdk-36.0.0.tar.gz",
+    "react-native-linear-gradient": "^2.5.6",
     "react-native-web": "~0.11.7",
     "react-redux": "^7.2.0",
     "react-router-native": "^5.1.2",
