@@ -3,3 +3,4 @@ export * from './user.constants';
 export * from './pathLocation';
 export * from './verifyRegistration.constants';
 export * from './authModal.constants';
+export localizationConstants from './localization.constants';

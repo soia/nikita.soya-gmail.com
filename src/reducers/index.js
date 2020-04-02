@@ -5,6 +5,7 @@ import refreshToken from './jwt.reducer';
 import verifyRegistrationReducer from './verify-registration.reducer';
 import { registration } from './registration.reducer';
 import { authModal } from './authModal.reducer';
+import localization from './localization.reducer';
 
 const rootReducer = combineReducers({
     authentication,
@@ -13,6 +14,7 @@ const rootReducer = combineReducers({
     verifyRegistrationReducer,
     authModal,
     registration,
+    localization,
 });
 
 export default rootReducer;
