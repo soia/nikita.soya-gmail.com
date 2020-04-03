@@ -9,10 +9,10 @@ import {
     View,
     Text,
     StyleSheet,
-    TextInput,
     Keyboard,
     TouchableWithoutFeedback,
     TouchableOpacity,
+    Dimensions,
 } from 'react-native';
 
 import Field from '../../UI/Field';
@@ -273,10 +273,18 @@ class Login extends Component {
                 paddingVertical: 25,
             },
 
+            content: {
+                flex: 1,
+                justifyContent: 'flex-end',
+            },
+
             logoWrapper: {
+                position: 'absolute',
+                top: 100,
+                left: 0,
+                right: 0,
+                bottom: 0,
                 alignItems: 'center',
-                justifyContent: 'center',
-                marginTop: 50,
                 flex: isKeyboardOpen ? 0 : 1,
             },
 
@@ -356,8 +364,8 @@ class Login extends Component {
                 locations={[0.2, 1]}
                 style={{ flex: 1 }}
             >
-                <View style={styles.container}>
-                    <TouchableWithoutFeedback onPress={Keyboard.dismiss} accessible={false}>
+                <TouchableWithoutFeedback onPress={Keyboard.dismiss} accessible={false}>
+                    <View style={styles.container}>
                         <View style={styles.logoWrapper}>
                             <SvgUri
                                 width="215"
@@ -365,69 +373,69 @@ class Login extends Component {
                                 source={require('../../../assets/logo-with-label.svg')}
                             />
                         </View>
-                    </TouchableWithoutFeedback>
-                    <Field
-                        inputWrapperStyle={styles.inputWrapperStyle}
-                        onChangeText={value => this.inputOnchange('email', value)}
-                        value={email}
-                        textContentType="emailAddress"
-                        autoCapitalize="none"
-                        placeholder="Email"
-                        blurOnSubmit={false}
-                        autoFocus={false}
-                        autoCorrect={false}
-                        returnKeyType="next"
-                        error={emailErrors}
-                        labelText="Email"
-                    />
+                        <View style={styles.content}>
+                            <Field
+                                inputWrapperStyle={styles.inputWrapperStyle}
+                                onChangeText={value => this.inputOnchange('email', value)}
+                                value={email}
+                                textContentType="emailAddress"
+                                autoCapitalize="none"
+                                placeholder="Email"
+                                blurOnSubmit={false}
+                                autoFocus={false}
+                                autoCorrect={false}
+                                returnKeyType="next"
+                                error={emailErrors}
+                                labelText="Email"
+                            />
+                            <Field
+                                inputWrapperStyle={styles.inputWrapperStyle}
+                                onChangeText={value => this.inputOnchange('password', value)}
+                                value={password}
+                                textContentType="password"
+                                autoCapitalize="none"
+                                placeholder={i18n.t('auth.password')}
+                                blurOnSubmit={false}
+                                autoFocus={false}
+                                autoCorrect={false}
+                                returnKeyType="next"
+                                error={passwordErrors}
+                                labelText={i18n.t('auth.password')}
+                                secureTextEntry
+                            />
 
-                    <Field
-                        inputWrapperStyle={styles.inputWrapperStyle}
-                        onChangeText={value => this.inputOnchange('password', value)}
-                        value={password}
-                        textContentType="password"
-                        autoCapitalize="none"
-                        placeholder={i18n.t('auth.password')}
-                        blurOnSubmit={false}
-                        autoFocus={false}
-                        autoCorrect={false}
-                        returnKeyType="next"
-                        error={passwordErrors}
-                        labelText={i18n.t('auth.password')}
-                        secureTextEntry
-                    />
-                    <TouchableWithoutFeedback onPress={Keyboard.dismiss} accessible={false}>
-                        <View>
-                            <View style={styles.inputLine} />
-                            <Link to={registartionPath} style={styles.forgotPasswordLink}>
-                                <Text style={styles.forgotPassword}>
-                                    {i18n.t('auth.forgotPassword')}
-                                </Text>
-                            </Link>
-                            <TouchableOpacity activeOpacity={0.7} onPress={this.loginSubmit} style={styles.buttonWrapper}>
-                                <LinearGradient
-                                    start={[0, 0]}
-                                    end={[1, 1]}
-                                    locations={[0.0, 0.99]}
-                                    colors={['#191C2D', '#2B73A5']}
-                                    style={styles.linearGradient}
-                                >
-                                    <Text style={styles.buttonText}>
-                                        {i18n.t('auth.signIn')}
+                            <View>
+                                <View style={styles.inputLine} />
+                                <Link to={registartionPath} style={styles.forgotPasswordLink}>
+                                    <Text style={styles.forgotPassword}>
+                                        {i18n.t('auth.forgotPassword')}
                                     </Text>
-                                </LinearGradient>
-                            </TouchableOpacity>
-                            <View style={styles.bottomWrapper}>
-                                <Text style={styles.dontHaveAnAccount}>
-                                    {i18n.t('auth.dontHaveAnAccount')}
-                                </Text>
-                                <Link to={registartionPath}>
-                                    <Text style={styles.signUp}>{i18n.t('auth.signUp')}</Text>
                                 </Link>
+                                <TouchableOpacity activeOpacity={0.7} onPress={this.loginSubmit} style={styles.buttonWrapper}>
+                                    <LinearGradient
+                                        start={[0, 0]}
+                                        end={[1, 1]}
+                                        locations={[0.0, 0.99]}
+                                        colors={['#191C2D', '#2B73A5']}
+                                        style={styles.linearGradient}
+                                    >
+                                        <Text style={styles.buttonText}>
+                                            {i18n.t('auth.signIn')}
+                                        </Text>
+                                    </LinearGradient>
+                                </TouchableOpacity>
+                                <View style={styles.bottomWrapper}>
+                                    <Text style={styles.dontHaveAnAccount}>
+                                        {i18n.t('auth.dontHaveAnAccount')}
+                                    </Text>
+                                    <Link to={registartionPath}>
+                                        <Text style={styles.signUp}>{i18n.t('auth.signUp')}</Text>
+                                    </Link>
+                                </View>
                             </View>
                         </View>
-                    </TouchableWithoutFeedback>
-                </View>
+                    </View>
+                </TouchableWithoutFeedback>
             </LinearGradient>
         );
     }
