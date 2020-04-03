@@ -1,118 +1,186 @@
 /* eslint-disable global-require */
 /* eslint-disable react/require-default-props */
-import React from 'react';
+import React, { Component } from 'react';
 import PropTypes from 'prop-types';
 import SvgUri from 'expo-svg-uri';
 import {
-    View, Text, TextInput, StyleSheet,
+    View,
+    Text,
+    TextInput,
+    StyleSheet,
+    Animated,
+    Dimensions,
+    Keyboard,
+    UIManager,
 } from 'react-native';
 
-const Field = ({
-    error,
-    onChangeText,
-    labelText,
-    textContentType,
-    autoCapitalize,
-    inputWrapperStyle,
-    placeholder,
-    blurOnSubmit,
-    autoFocus,
-    autoCorrect,
-    returnKeyType,
-    value,
-    secureTextEntry,
-}) => {
-    const errorValues = Object.values(error).filter(item => item.length > 0);
+const { State: TextInputState } = TextInput;
+class Field extends Component {
+    state = {
+        shift: new Animated.Value(0),
+    };
 
-    const style = StyleSheet.create({
-        container: {
-            flex: 1,
-            paddingHorizontal: 25,
-            paddingVertical: 25,
-        },
+    componentDidMount() {
+        this.keyboardDidShowSub = Keyboard.addListener(
+            'keyboardDidShow',
+            this.handleKeyboardDidShow,
+        );
+        this.keyboardDidHideSub = Keyboard.addListener(
+            'keyboardDidHide',
+            this.handleKeyboardDidHide,
+        );
+    }
 
-        inputLine: {
-            height: 1.3,
-            backgroundColor: errorValues.length ? '#EB5757' : 'rgba(255, 255, 255, 0.6)',
-            borderRadius: 6,
-            marginBottom: 12,
-        },
+    componentWillUnmount() {
+        this.keyboardDidShowSub.remove();
+        this.keyboardDidHideSub.remove();
+    }
 
-        labelStyle: {
-            fontFamily: 'monserratRegular',
-            color: errorValues.length ? '#EB5757' : '#ABB8C8',
-            marginBottom: 6,
-            fontSize: 16,
-            lineHeight: 18,
-        },
+    handleKeyboardDidShow = event => {
+        const { shift } = this.state;
+        const { height: windowHeight } = Dimensions.get('window');
+        const keyboardHeight = event.endCoordinates.height;
+        const currentlyFocusedField = TextInputState.currentlyFocusedField();
+        UIManager.measure(
+            currentlyFocusedField,
+            (originX, originY, width, height, pageX, pageY) => {
+                const fieldHeight = height;
+                const fieldTop = pageY;
+                const gap = windowHeight - keyboardHeight - (fieldTop + fieldHeight + 35);
+                if (gap >= 0) {
+                    return;
+                }
+                Animated.timing(shift, {
+                    toValue: gap,
+                    duration: 100,
+                    useNativeDriver: true,
+                }).start();
+            },
+        );
+    };
 
-        defaultInputStyle: {
-            color: errorValues.length ? '#EB5757' : '#ABB8C8',
-            height: 28,
-            fontFamily: 'monserratRegular',
-            fontSize: 16,
-            lineHeight: 18,
-        },
+    handleKeyboardDidHide = () => {
+        const { shift } = this.state;
+        Animated.timing(shift, {
+            toValue: 0,
+            duration: 100,
+            useNativeDriver: true,
+        }).start();
+    };
 
-        invalidWrapper: {
-            flexDirection: 'row',
-            alignItems: 'center',
-            marginBottom: 4,
-        },
+    render() {
+        const { shift } = this.state;
+        const {
+            error,
+            onChangeText,
+            labelText,
+            textContentType,
+            autoCapitalize,
+            inputWrapperStyle,
+            placeholder,
+            blurOnSubmit,
+            autoFocus,
+            autoCorrect,
+            returnKeyType,
+            value,
+            secureTextEntry,
+        } = this.props;
+        const errorValues = Object.values(error).filter(item => item.length > 0);
 
-        invalidText: {
-            fontFamily: 'monserratRegular',
-            fontSize: 10,
-            color: '#EB5757',
-            marginLeft: 4,
-        },
-    });
+        const style = StyleSheet.create({
+            container: {
+                flex: 1,
+                paddingHorizontal: 25,
+                paddingVertical: 25,
+            },
 
-    const placeholderTextColor = errorValues.length ? '#EB5757' : '#ABB8C8';
+            inputLine: {
+                height: 1.3,
+                backgroundColor: errorValues.length
+                    ? '#EB5757'
+                    : 'rgba(255, 255, 255, 0.6)',
+                borderRadius: 6,
+                marginBottom: 12,
+            },
 
-    return (
-        <View style={inputWrapperStyle}>
-            {value.length > 0
-                ? (
-                    <Text style={style.labelStyle}>
-                        {labelText}
-                    </Text>
-                )
-                : null}
-            <View>
-                <TextInput
-                    style={style.defaultInputStyle}
-                    onChangeText={onChangeText}
-                    value={value}
-                    textContentType={textContentType}
-                    autoCapitalize={autoCapitalize}
-                    placeholder={placeholder}
-                    placeholderTextColor={placeholderTextColor}
-                    blurOnSubmit={blurOnSubmit}
-                    autoFocus={autoFocus}
-                    autoCorrect={autoCorrect}
-                    returnKeyType={returnKeyType}
-                    secureTextEntry={secureTextEntry}
-                />
-                <View style={style.inputLine} />
-                {errorValues.length > 0 ? (
+            labelStyle: {
+                fontFamily: 'monserratRegular',
+                color: errorValues.length ? '#EB5757' : '#ABB8C8',
+                marginBottom: 6,
+                fontSize: 16,
+                lineHeight: 18,
+            },
+
+            defaultInputStyle: {
+                color: errorValues.length ? '#EB5757' : '#ABB8C8',
+                height: 28,
+                fontFamily: 'monserratRegular',
+                fontSize: 16,
+                lineHeight: 18,
+            },
+
+            invalidWrapper: {
+                flexDirection: 'row',
+                alignItems: 'center',
+                marginBottom: 4,
+            },
+
+            invalidText: {
+                fontFamily: 'monserratRegular',
+                fontSize: 10,
+                color: '#EB5757',
+                marginLeft: 4,
+            },
+        });
+
+        const placeholderTextColor = errorValues.length ? '#EB5757' : '#ABB8C8';
+
+        return (
+            <Animated.View
+                style={[style.containsdfer, { transform: [{ translateY: shift }] }]}
+            >
+                <View style={inputWrapperStyle}>
+                    {value.length > 0 ? (
+                        <Text style={style.labelStyle}>{labelText}</Text>
+                    ) : null}
                     <View>
-                        {errorValues.map(item => (
-                            <View style={style.invalidWrapper}>
-                                <SvgUri
-                                    width="20"
-                                    height="20"
-                                    source={require('../../../assets/exclamation.svg')}
-                                />
-                                <Text key={item} style={style.invalidText}>{item}</Text>
+                        <TextInput
+                            style={style.defaultInputStyle}
+                            onChangeText={onChangeText}
+                            value={value}
+                            textContentType={textContentType}
+                            autoCapitalize={autoCapitalize}
+                            placeholder={placeholder}
+                            placeholderTextColor={placeholderTextColor}
+                            blurOnSubmit={blurOnSubmit}
+                            autoFocus={autoFocus}
+                            autoCorrect={autoCorrect}
+                            returnKeyType={returnKeyType}
+                            secureTextEntry={secureTextEntry}
+                        />
+                        <View style={style.inputLine} />
+                        {errorValues.length > 0 ? (
+                            <View>
+                                {errorValues.map(item => (
+                                    <View style={style.invalidWrapper}>
+                                        <SvgUri
+                                            width="20"
+                                            height="20"
+                                            source={require('../../../assets/exclamation.svg')}
+                                        />
+                                        <Text key={item} style={style.invalidText}>
+                                            {item}
+                                        </Text>
+                                    </View>
+                                ))}
                             </View>
-                        ))}
+                        ) : null}
                     </View>
-                ) : null}
-            </View>
-        </View>
-    );
-};
+                </View>
+            </Animated.View>
+        );
+    }
+}
 
 Field.defaultProps = {
     error: {},

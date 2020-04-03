@@ -12,7 +12,6 @@ import {
     Keyboard,
     TouchableWithoutFeedback,
     TouchableOpacity,
-    Dimensions,
 } from 'react-native';
 
 import Field from '../../UI/Field';
@@ -37,7 +36,7 @@ class Login extends Component {
         isKeyboardOpen: false,
     };
 
-    componentDidMount() {
+    componentWillMount() {
         this.keyboardDidShowListener = Keyboard.addListener(
             'keyboardDidShow',
             this.keyboardDidShow,
