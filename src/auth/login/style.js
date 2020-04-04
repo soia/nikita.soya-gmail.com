@@ -30,7 +30,7 @@ const styles = StyleSheet.create({
     },
 
     forgotPasswordLink: {
-        marginBottom: 40,
+        marginBottom: 60,
         alignSelf: 'flex-end',
     },
 
@@ -56,7 +56,7 @@ const styles = StyleSheet.create({
     bottomWrapper: {
         flexDirection: 'row',
         justifyContent: 'center',
-        marginTop: 16,
+        marginTop: 26,
         marginBottom: 20,
     },
 
