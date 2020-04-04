@@ -11,9 +11,10 @@ import {
     StyleSheet,
     Keyboard,
     TouchableWithoutFeedback,
-    // TouchableOpacity,
+    TouchableOpacity,
     KeyboardAvoidingView,
     Platform,
+    Dimensions,
 } from 'react-native';
 
 import Field from '../../UI/Field';
@@ -251,7 +252,7 @@ class Login extends Component {
 
             logoWrapper: {
                 alignItems: 'center',
-                marginBottom: 70,
+                marginBottom: Dimensions.get('window').height / 10,
             },
 
             inputWrapperStyle: {
@@ -321,6 +322,7 @@ class Login extends Component {
                 textDecorationLine: 'underline',
             },
         });
+
         return (
             <KeyboardAvoidingView
                 behavior={Platform.OS === 'ios' ? 'padding' : 'height'}
@@ -380,7 +382,7 @@ class Login extends Component {
                                         {i18n.t('auth.forgotPassword')}
                                     </Text>
                                 </Link>
-                                <TouchableWithoutFeedback onPress={this.loginSubmit}>
+                                <TouchableOpacity activeOpacity={0.6} onPress={this.loginSubmit}>
                                     <View style={styles.buttonWrapper}>
                                         <LinearGradient
                                             start={[0, 0]}
@@ -394,7 +396,7 @@ class Login extends Component {
                                             </Text>
                                         </LinearGradient>
                                     </View>
-                                </TouchableWithoutFeedback>
+                                </TouchableOpacity>
                                 <View style={styles.bottomWrapper}>
                                     <Text style={styles.dontHaveAnAccount}>
                                         {i18n.t('auth.dontHaveAnAccount')}
