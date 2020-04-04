@@ -8,16 +8,15 @@ import { LinearGradient } from 'expo-linear-gradient';
 import {
     View,
     Text,
-    StyleSheet,
     Keyboard,
     TouchableWithoutFeedback,
-    TouchableOpacity,
     KeyboardAvoidingView,
     Platform,
-    Dimensions,
 } from 'react-native';
 
+import styles from './style';
 import Field from '../../UI/Field';
+import Button from '../../UI/Button';
 import compose from '../../utils/compose';
 import { registartionPath } from '../../constants/pathLocation';
 import withTranslation from '../../hoc/i18n-hoc';
@@ -26,6 +25,7 @@ class Login extends Component {
     state = {
         email: '',
         password: '',
+        loading: false,
         emailErrors: {
             emailLengthError: '',
             emailCharactersError: '',
@@ -232,6 +232,9 @@ class Login extends Component {
         ) {
             if (email && password) {
                 console.log('SUCCESSFUL LOGIN');
+                this.setState({
+                    loading: true,
+                });
             }
         }
     };
@@ -239,89 +242,8 @@ class Login extends Component {
     render() {
         const { i18n } = this.props;
         const {
-            email, password, emailErrors, passwordErrors,
+            email, password, loading, emailErrors, passwordErrors,
         } = this.state;
-        const styles = StyleSheet.create({
-            container: {
-                flex: 1,
-                justifyContent: 'flex-end',
-                paddingHorizontal: 25,
-                paddingVertical: 25,
-                paddingTop: 60,
-            },
-
-            logoWrapper: {
-                alignItems: 'center',
-                marginBottom: Dimensions.get('window').height / 10,
-            },
-
-            inputWrapperStyle: {
-                marginTop: 22,
-            },
-
-            forgotPassword: {
-                fontFamily: 'monserratRegular',
-                fontSize: 12,
-                textDecorationLine: 'underline',
-                color: '#ABB8C8',
-                marginTop: 11,
-            },
-
-            forgotPasswordLink: {
-                marginBottom: 40,
-                alignSelf: 'flex-end',
-            },
-
-            buttonWrapper: {
-                flex: 1,
-                justifyContent: 'center',
-                alignItems: 'center',
-                height: 36,
-                marginBottom: 20,
-            },
-
-            linearGradient: {
-                alignItems: 'center',
-                justifyContent: 'center',
-                borderRadius: 20,
-                width: 170,
-                height: 46,
-                shadowColor: 'rgba(0, 0, 0, 0.1)',
-                shadowOffset: {
-                    width: 0,
-                    height: 5,
-                },
-                shadowRadius: 10,
-            },
-
-            buttonText: {
-                fontFamily: 'monserratRegular',
-                fontSize: 16,
-                textTransform: 'uppercase',
-                color: '#fff',
-            },
-
-            bottomWrapper: {
-                flexDirection: 'row',
-                justifyContent: 'center',
-                marginTop: 16,
-                marginBottom: 20,
-            },
-
-            dontHaveAnAccount: {
-                fontFamily: 'monserratRegular',
-                fontSize: 14,
-                color: '#ABB8C8',
-                marginRight: 4,
-            },
-
-            signUp: {
-                fontFamily: 'monserratRegular',
-                fontSize: 14,
-                color: '#ABB8C8',
-                textDecorationLine: 'underline',
-            },
-        });
 
         return (
             <KeyboardAvoidingView
@@ -382,21 +304,13 @@ class Login extends Component {
                                         {i18n.t('auth.forgotPassword')}
                                     </Text>
                                 </Link>
-                                <TouchableOpacity activeOpacity={0.6} onPress={this.loginSubmit}>
-                                    <View style={styles.buttonWrapper}>
-                                        <LinearGradient
-                                            start={[0, 0]}
-                                            end={[1, 1]}
-                                            locations={[0.0, 0.99]}
-                                            colors={['#191C2D', '#2B73A5']}
-                                            style={styles.linearGradient}
-                                        >
-                                            <Text style={styles.buttonText}>
-                                                {i18n.t('auth.signIn')}
-                                            </Text>
-                                        </LinearGradient>
-                                    </View>
-                                </TouchableOpacity>
+                                <Button
+                                    onPress={this.loginSubmit}
+                                    buttonText={i18n.t('auth.signIn')}
+                                    buttonWrapperStyle={styles.buttonWrapper}
+                                    buttonTextStyle={styles.buttonText}
+                                    loading={loading}
+                                />
                                 <View style={styles.bottomWrapper}>
                                     <Text style={styles.dontHaveAnAccount}>
                                         {i18n.t('auth.dontHaveAnAccount')}
