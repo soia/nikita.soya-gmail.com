@@ -11,7 +11,9 @@ import {
     StyleSheet,
     Keyboard,
     TouchableWithoutFeedback,
-    TouchableOpacity,
+    // TouchableOpacity,
+    KeyboardAvoidingView,
+    Platform,
 } from 'react-native';
 
 import Field from '../../UI/Field';
@@ -33,35 +35,6 @@ class Login extends Component {
             passwordDigitError: '',
             passwordLettersError: '',
         },
-        isKeyboardOpen: false,
-    };
-
-    componentWillMount() {
-        this.keyboardDidShowListener = Keyboard.addListener(
-            'keyboardDidShow',
-            this.keyboardDidShow,
-        );
-        this.keyboardDidHideListener = Keyboard.addListener(
-            'keyboardDidHide',
-            this.keyboardDidHide,
-        );
-    }
-
-    componentWillUnmount() {
-        this.keyboardDidShowListener.remove();
-        this.keyboardDidHideListener.remove();
-    }
-
-    keyboardDidShow = () => {
-        this.setState({
-            isKeyboardOpen: true,
-        });
-    };
-
-    keyboardDidHide = () => {
-        this.setState({
-            isKeyboardOpen: false,
-        });
     };
 
     inputOnchange = (name, value) => {
@@ -115,7 +88,9 @@ class Login extends Component {
                 this.setState(state => ({
                     emailErrors: {
                         ...state.emailErrors,
-                        emailCharactersError: i18n.t('error.only_letters_symbols_numbers'),
+                        emailCharactersError: i18n.t(
+                            'error.only_letters_symbols_numbers',
+                        ),
                     },
                 }));
             }
@@ -140,7 +115,9 @@ class Login extends Component {
                         [name]: value,
                         passwordErrors: {
                             ...state.passwordErrors,
-                            passwordLengthError: i18n.t('error.password_at_least_6_chars'),
+                            passwordLengthError: i18n.t(
+                                'error.password_at_least_6_chars',
+                            ),
                         },
                     }));
                 } else {
@@ -180,7 +157,9 @@ class Login extends Component {
                         [name]: value,
                         passwordErrors: {
                             ...state.passwordErrors,
-                            passwordLettersError: i18n.t('error.password_at_least_1_letters'),
+                            passwordLettersError: i18n.t(
+                                'error.password_at_least_1_letters',
+                            ),
                         },
                     }));
                 } else {
@@ -197,7 +176,9 @@ class Login extends Component {
                 this.setState(state => ({
                     passwordErrors: {
                         ...state.passwordErrors,
-                        passwordCharactersError: i18n.t('error.only_latin_letters_and_numbers_allowed'),
+                        passwordCharactersError: i18n.t(
+                            'error.only_latin_letters_and_numbers_allowed',
+                        ),
                     },
                 }));
             }
@@ -207,10 +188,7 @@ class Login extends Component {
 
     validateFields = () => {
         const { i18n } = this.props;
-        const {
-            email,
-            password,
-        } = this.state;
+        const { email, password } = this.state;
 
         if (email.length < 1) {
             this.setState(state => ({
@@ -229,15 +207,12 @@ class Login extends Component {
                 },
             }));
         }
-    }
+    };
 
     loginSubmit = async () => {
         await this.validateFields();
         const {
-            email,
-            password,
-            passwordErrors,
-            emailErrors,
+            email, password, passwordErrors, emailErrors,
         } = this.state;
 
         const copyEmailErrors = { ...emailErrors };
@@ -263,28 +238,20 @@ class Login extends Component {
     render() {
         const { i18n } = this.props;
         const {
-            email, password, isKeyboardOpen, emailErrors, passwordErrors,
+            email, password, emailErrors, passwordErrors,
         } = this.state;
         const styles = StyleSheet.create({
             container: {
                 flex: 1,
+                justifyContent: 'flex-end',
                 paddingHorizontal: 25,
                 paddingVertical: 25,
-            },
-
-            content: {
-                flex: 1,
-                justifyContent: 'flex-end',
+                paddingTop: 60,
             },
 
             logoWrapper: {
-                position: 'absolute',
-                top: 100,
-                left: 0,
-                right: 0,
-                bottom: 0,
                 alignItems: 'center',
-                flex: isKeyboardOpen ? 0 : 1,
+                marginBottom: 70,
             },
 
             inputWrapperStyle: {
@@ -354,17 +321,19 @@ class Login extends Component {
                 textDecorationLine: 'underline',
             },
         });
-
         return (
-            <LinearGradient
-                colors={['#203752', '#204362']}
-                start={{ x: 0.95, y: -0.14 }}
-                end={{ x: 0.95, y: 0.68 }}
-                locations={[0.2, 1]}
+            <KeyboardAvoidingView
+                behavior={Platform.OS === 'ios' ? 'padding' : 'height'}
                 style={{ flex: 1 }}
             >
                 <TouchableWithoutFeedback onPress={Keyboard.dismiss} accessible={false}>
-                    <View style={styles.container}>
+                    <LinearGradient
+                        colors={['#203752', '#204362']}
+                        start={{ x: 0.95, y: -0.14 }}
+                        end={{ x: 0.95, y: 0.68 }}
+                        locations={[0.2, 1]}
+                        style={styles.container}
+                    >
                         <View style={styles.logoWrapper}>
                             <SvgUri
                                 width="215"
@@ -372,7 +341,7 @@ class Login extends Component {
                                 source={require('../../../assets/logo-with-label.svg')}
                             />
                         </View>
-                        <View style={styles.content}>
+                        <View>
                             <Field
                                 inputWrapperStyle={styles.inputWrapperStyle}
                                 onChangeText={value => this.inputOnchange('email', value)}
@@ -402,40 +371,45 @@ class Login extends Component {
                                 labelText={i18n.t('auth.password')}
                                 secureTextEntry
                             />
-
                             <View>
-                                <View style={styles.inputLine} />
-                                <Link to={registartionPath} style={styles.forgotPasswordLink}>
+                                <Link
+                                    to={registartionPath}
+                                    style={styles.forgotPasswordLink}
+                                >
                                     <Text style={styles.forgotPassword}>
                                         {i18n.t('auth.forgotPassword')}
                                     </Text>
                                 </Link>
-                                <TouchableOpacity activeOpacity={0.7} onPress={this.loginSubmit} style={styles.buttonWrapper}>
-                                    <LinearGradient
-                                        start={[0, 0]}
-                                        end={[1, 1]}
-                                        locations={[0.0, 0.99]}
-                                        colors={['#191C2D', '#2B73A5']}
-                                        style={styles.linearGradient}
-                                    >
-                                        <Text style={styles.buttonText}>
-                                            {i18n.t('auth.signIn')}
-                                        </Text>
-                                    </LinearGradient>
-                                </TouchableOpacity>
+                                <TouchableWithoutFeedback onPress={this.loginSubmit}>
+                                    <View style={styles.buttonWrapper}>
+                                        <LinearGradient
+                                            start={[0, 0]}
+                                            end={[1, 1]}
+                                            locations={[0.0, 0.99]}
+                                            colors={['#191C2D', '#2B73A5']}
+                                            style={styles.linearGradient}
+                                        >
+                                            <Text style={styles.buttonText}>
+                                                {i18n.t('auth.signIn')}
+                                            </Text>
+                                        </LinearGradient>
+                                    </View>
+                                </TouchableWithoutFeedback>
                                 <View style={styles.bottomWrapper}>
                                     <Text style={styles.dontHaveAnAccount}>
                                         {i18n.t('auth.dontHaveAnAccount')}
                                     </Text>
                                     <Link to={registartionPath}>
-                                        <Text style={styles.signUp}>{i18n.t('auth.signUp')}</Text>
+                                        <Text style={styles.signUp}>
+                                            {i18n.t('auth.signUp')}
+                                        </Text>
                                     </Link>
                                 </View>
                             </View>
                         </View>
-                    </View>
+                    </LinearGradient>
                 </TouchableWithoutFeedback>
-            </LinearGradient>
+            </KeyboardAvoidingView>
         );
     }
 }
