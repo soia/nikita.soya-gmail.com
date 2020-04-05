@@ -1,12 +1,18 @@
 const en = {
     auth: {
         password: 'Password',
+        confirmPassword: 'Confirm password',
         forgotPassword: 'Forgot password',
         signIn: 'Sign in',
         dontHaveAnAccount: 'Don’t have an account?',
+        haveAnAccount: 'You have an account?',
         signUp: 'Sign Up',
         restore: 'Restore',
         passwordRestore: 'Password restore',
+        iAgree: 'I agree to the',
+        termOfUse: 'Term of use',
+        and: 'and',
+        privacyPolicy: 'Privacy policy',
     },
     error: {
         title: 'Error',

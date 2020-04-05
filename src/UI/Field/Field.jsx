@@ -1,3 +1,4 @@
+/* eslint-disable react/no-array-index-key */
 /* eslint-disable global-require */
 /* eslint-disable react/require-default-props */
 import React from 'react';
@@ -98,13 +99,13 @@ const Field = ({
                 {errorValues.length > 0 ? (
                     <View>
                         {errorValues.map(item => (
-                            <View style={style.invalidWrapper}>
+                            <View key={placeholder} style={style.invalidWrapper}>
                                 <SvgUri
                                     width="20"
                                     height="20"
                                     source={require('../../../assets/exclamation.svg')}
                                 />
-                                <Text key={item} style={style.invalidText}>{item}</Text>
+                                <Text style={style.invalidText}>{item}</Text>
                             </View>
                         ))}
                     </View>

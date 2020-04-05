@@ -33,8 +33,8 @@ class Wallet extends Component {
 
         return (
             <NativeRouter>
-                <Route exact path="/" component={Login} />
-                <Route path={registartionPath} component={Registration} />
+                <Route exact path={registartionPath} component={Login} />
+                <Route path="/" component={Registration} />
                 <Route path={passwordRestorePath} component={PasswordRestore} />
             </NativeRouter>
         );
