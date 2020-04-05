@@ -1,6 +1,7 @@
 
 import axios from 'axios';
 import { AsyncStorage } from 'react-native';
+import getEnvVars from '../../environment';
 
 export default class GetService {
     getResource = async url => {
@@ -8,7 +9,7 @@ export default class GetService {
         const getToken = () => user.access_token;
 
         const response = await axios.get(
-            `${process.env.REACT_APP_API_URL_AUTH_SERVICE}${url}`,
+            `${getEnvVars.REACT_APP_API_URL_AUTH_SERVICE}${url}`,
             {
                 headers: {
                     Authorization: `Bearer ${getToken()}`,
@@ -26,7 +27,7 @@ export default class GetService {
             }
 
             throw new Error(
-                `Could not fetch ${process.env.REACT_APP_API_URL_AUTH_SERVICE}${url},
+                `Could not fetch ${getEnvVars.REACT_APP_API_URL_AUTH_SERVICE}${url},
                 received ${response.status}`,
             );
         }

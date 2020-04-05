@@ -1,6 +1,7 @@
 /* eslint-disable global-require */
 import React, { Component } from 'react';
 import { connect } from 'react-redux';
+import { withRouter } from 'react-router-dom';
 import PropTypes from 'prop-types';
 import SvgUri from 'expo-svg-uri';
 import { Link } from 'react-router-native';
@@ -14,6 +15,7 @@ import {
     Platform,
 } from 'react-native';
 
+import { userActions } from '../../actions';
 import styles from './style';
 import Field from '../../UI/Field';
 import Button from '../../UI/Button';
@@ -212,6 +214,7 @@ class Login extends Component {
 
     loginSubmit = async () => {
         await this.validateFields();
+        const { history, login } = this.props;
         const {
             email, password, passwordErrors, emailErrors,
         } = this.state;
@@ -231,6 +234,7 @@ class Login extends Component {
             && Object.keys(copyPasswordErrors).length === 0
         ) {
             if (email && password) {
+                login(email, password, history);
                 console.log('SUCCESSFUL LOGIN');
                 this.setState({
                     loading: true,
@@ -332,10 +336,14 @@ class Login extends Component {
 
 Login.defaultProps = {
     i18n: {},
+    login: () => {},
+    history: {},
 };
 
 Login.propTypes = {
     i18n: PropTypes.object,
+    login: PropTypes.func,
+    history: PropTypes.object,
 };
 
 const mapStateToProps = state => {
@@ -348,4 +356,14 @@ const mapStateToProps = state => {
     };
 };
 
-export default compose(withTranslation, connect(mapStateToProps))(Login);
+const mapDispatchToProps = dispatch => ({
+    login(email, password, history) {
+        dispatch(userActions.login(email, password, history));
+    },
+});
+
+export default compose(
+    withTranslation,
+    connect(mapStateToProps, mapDispatchToProps),
+    withRouter,
+)(Login);

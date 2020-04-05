@@ -25,8 +25,7 @@ function login(username, password, history) {
             .then(user => {
                 dispatch(loginSuccessActions(user.data));
                 dispatch(alertActions.alertActionsSuccess('Authorization successful'));
-                history.push(`${tradePath}`);
-                dispatch(authModalActions.closeModal());
+                // history.push(`${tradePath}`);
                 console.log('Authorization successful');
             },
             error => {

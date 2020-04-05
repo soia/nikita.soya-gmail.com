@@ -3,6 +3,7 @@ import axios from 'axios';
 import * as moment from 'moment';
 import { setStatus, resetStatus } from '../reducers/jwt.reducer';
 import { userConstants } from '../constants';
+import getEnvVars from '../../environment';
 
 const success = user => ({
     type: userConstants.REGISTER_SUCCESS,
@@ -24,7 +25,7 @@ const refreshToken = dispatch => {
             'Access-Control-Allow-Origin': '*',
         },
         data: formData,
-        url: `${process.env.REACT_APP_API_URL_AUTH_SERVICE}/oauth/token`,
+        url: `${getEnvVars.REACT_APP_API_URL_AUTH_SERVICE}/oauth/token`,
     };
     const response = axios(options);
 

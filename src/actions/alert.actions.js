@@ -16,6 +16,6 @@ function clear() {
 
 export const alertActions = {
     alertActionsSuccess,
-    error,
+    alertActionsError,
     clear,
 };

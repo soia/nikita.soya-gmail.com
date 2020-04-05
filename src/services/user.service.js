@@ -1,9 +1,10 @@
 /* eslint-disable import/prefer-default-export */
-import * as moment from 'moment';
+import moment from 'moment';
 import { AsyncStorage } from 'react-native';
 import axios from 'axios';
 import store from '../store';
 import { userConstants } from '../constants';
+import getEnvVars from '../../environment';
 
 const logoutActions = () => {
     AsyncStorage.removeItem('user');
@@ -35,6 +36,23 @@ const handleResponse = response => response.text()
         return data;
     });
 
+const saveUserData = async data => {
+    try {
+        await AsyncStorage.setItem('user', data);
+    } catch (error) {
+        console.log(error, 'Cant save user data');
+    }
+};
+
+const saveUpadateTokenTime = async time => {
+    try {
+        await AsyncStorage.setItem('updateTokenTime', time.toString());
+    } catch (error) {
+        console.log(error, 'Cant save updateTokenTime');
+    }
+};
+
+
 const login = (username, password) => {
     const formData = new FormData();
     formData.append('username', username);
@@ -48,15 +66,17 @@ const login = (username, password) => {
             'Access-Control-Allow-Origin': '*',
         },
         data: formData,
-        url: `${process.env.REACT_APP_API_URL_AUTH_SERVICE}/oauth/token`,
+        url: `${getEnvVars.REACT_APP_API_URL_AUTH_SERVICE}/oauth/token`,
     };
 
     return axios(options).then(user => {
-        AsyncStorage.setItem('user', JSON.stringify(user.data));
-        AsyncStorage.setItem('updateTokenTime', moment().unix());
+        console.log(user, 'useruseruseruseruseruseruseruseruser');
+        saveUserData(JSON.stringify(user.data));
+        saveUpadateTokenTime(moment().unix());
         return user;
     });
 };
+
 
 const register = user => {
     const { password, email } = user;
@@ -72,7 +92,7 @@ const register = user => {
     };
 
     return fetch(
-        `${process.env.REACT_APP_API_URL_AUTH_SERVICE}/registration`,
+        `${getEnvVars.REACT_APP_API_URL_AUTH_SERVICE}/registration`,
         requestOptions,
     )
         .then(handleResponse)
