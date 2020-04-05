@@ -9,12 +9,12 @@ const styles = StyleSheet.create({
         justifyContent: 'flex-end',
         paddingHorizontal: 25,
         paddingVertical: 25,
-        paddingTop: 60,
+        paddingTop: 40,
     },
 
     logoWrapper: {
         alignItems: 'center',
-        marginBottom: Dimensions.get('window').height / 10,
+        marginBottom: Dimensions.get('window').height / 15,
     },
 
     inputWrapperStyle: {
