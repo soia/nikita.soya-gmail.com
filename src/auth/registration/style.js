@@ -4,17 +4,22 @@ import {
 } from 'react-native';
 
 const styles = StyleSheet.create({
+    linearGradient: {
+        flex: 1,
+    },
+
     container: {
         flex: 1,
-        justifyContent: 'flex-end',
         paddingHorizontal: 25,
         paddingVertical: 25,
-        paddingTop: 40,
+        justifyContent: 'space-between',
+        minHeight: Dimensions.get('window').height - 10,
     },
 
     logoWrapper: {
         alignItems: 'center',
-        marginBottom: Dimensions.get('window').height / 15,
+        justifyContent: 'center',
+        height: Dimensions.get('window').height / 2 - 50,
     },
 
     inputWrapperStyle: {
@@ -43,7 +48,7 @@ const styles = StyleSheet.create({
     bottomWrapper: {
         flexDirection: 'row',
         justifyContent: 'center',
-        marginTop: 26,
+        marginTop: 10,
         marginBottom: 20,
     },
 

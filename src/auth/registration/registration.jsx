@@ -12,7 +12,7 @@ import {
     Keyboard,
     TouchableWithoutFeedback,
     KeyboardAvoidingView,
-    Platform,
+    ScrollView,
 } from 'react-native';
 
 import styles from './style';
@@ -469,134 +469,140 @@ class Registration extends Component {
             },
             checkBoxErrors: { isError },
         } = this.state;
-
         return (
-            <KeyboardAvoidingView
-                behavior={Platform.OS === 'ios' ? 'padding' : 'height'}
-                style={{ flex: 1, flexDirection: 'column' }}
+            <LinearGradient
+                colors={['#203752', '#204362']}
+                start={{ x: 0.95, y: -0.14 }}
+                end={{ x: 0.95, y: 0.68 }}
+                locations={[0.2, 1]}
+                style={styles.linearGradient}
             >
-                <TouchableWithoutFeedback onPress={Keyboard.dismiss} accessible={false}>
-                    <LinearGradient
-                        colors={['#203752', '#204362']}
-                        start={{ x: 0.95, y: -0.14 }}
-                        end={{ x: 0.95, y: 0.68 }}
-                        locations={[0.2, 1]}
-                        style={styles.container}
-                    >
-                        <View style={styles.logoWrapper}>
-                            <SvgUri
-                                width="215"
-                                height="215"
-                                source={require('../../../assets/logo-with-label.svg')}
-                            />
-                        </View>
-                        <View>
-                            <Field
-                                inputWrapperStyle={styles.inputWrapperStyle}
-                                onChangeText={value => this.inputOnchange('email', value)}
-                                value={email}
-                                textContentType="emailAddress"
-                                autoCapitalize="none"
-                                placeholder="Email"
-                                blurOnSubmit={false}
-                                autoFocus={false}
-                                autoCorrect={false}
-                                returnKeyType="next"
-                                error={emailErrors}
-                                labelText="Email"
-                            />
-                            <Field
-                                inputWrapperStyle={styles.inputWrapperStyle}
-                                onChangeText={value => this.inputOnchange('password', value)}
-                                value={password}
-                                textContentType="password"
-                                autoCapitalize="none"
-                                placeholder={i18n.t('auth.password')}
-                                blurOnSubmit={false}
-                                autoFocus={false}
-                                autoCorrect={false}
-                                returnKeyType="next"
-                                error={passwordErrors}
-                                labelText={i18n.t('auth.password')}
-                                secureTextEntry
-                            />
-                            <Field
-                                inputWrapperStyle={styles.inputWrapperStyle}
-                                onChangeText={value => this.inputOnchange('confirmPassword', value)}
-                                value={confirmPassword}
-                                textContentType="confirmPassword"
-                                autoCapitalize="none"
-                                placeholder={i18n.t('auth.confirmPassword')}
-                                blurOnSubmit={false}
-                                autoFocus={false}
-                                autoCorrect={false}
-                                returnKeyType="next"
-                                error={confirmPasswordErrors}
-                                labelText={i18n.t('auth.confirmPassword')}
-                                secureTextEntry
-                            />
-
-                            <View style={styles.checkboxCoitainer}>
-                                <View style={styles.checkboxWrapper}>
-                                    <CheckBox
-                                        style={styles.checkbox}
-                                        onClick={this.termOfUse}
-                                        isChecked={checkbox}
-                                        checkBoxColor="#ABB8C8"
+                <KeyboardAvoidingView
+                    style={styles.keyboardAvoidingView}
+                    behavior="padding"
+                    enabled
+                >
+                    <ScrollView>
+                        <TouchableWithoutFeedback
+                            onPress={Keyboard.dismiss}
+                            accessible={false}
+                        >
+                            <View style={styles.container}>
+                                <View style={styles.logoWrapper}>
+                                    <SvgUri
+                                        width="215"
+                                        height="215"
+                                        source={require('../../../assets/logo-with-label.svg')}
                                     />
-                                    <Text style={styles.checkboxText}>
-                                        {i18n.t('auth.iAgree')}{' '}
-                                    </Text>
-                                    <Link to="/">
-                                        <Text style={styles.checkboxLink}>
-                                            {i18n.t('auth.termOfUse')}{' '}
-                                        </Text>
-                                    </Link>
-                                    <Text style={styles.checkboxText}>
-                                        {' '}
-                                        {i18n.t('auth.and')}{' '}
-                                    </Text>
-                                    <Link to="/">
-                                        <Text style={styles.checkboxLink}>
-                                            {i18n.t('auth.privacyPolicy')}
-                                        </Text>
-                                    </Link>
                                 </View>
-                                {isError ? (
-                                    <View style={styles.checkboxError}>
-                                        <SvgUri
-                                            width="20"
-                                            height="20"
-                                            source={require('../../../assets/exclamation.svg')}
-                                        />
-                                        <Text style={styles.invalidText}>
-                                            {i18n.t('error.need_to_agree')}
-                                        </Text>
-                                    </View>
-                                ) : null}
-                            </View>
-                            <Button
-                                onPress={this.registrationSubmit}
-                                buttonText={i18n.t('auth.signUp')}
-                                buttonWrapperStyle={styles.buttonWrapper}
-                                buttonTextStyle={styles.buttonText}
-                                loading={loading}
-                            />
-                            <View style={styles.bottomWrapper}>
-                                <Text style={styles.dontHaveAnAccount}>
-                                    {i18n.t('auth.haveAnAccount')}
-                                </Text>
-                                <Link to="/">
-                                    <Text style={styles.signUp}>
-                                        {i18n.t('auth.signIn')}
-                                    </Text>
-                                </Link>
-                            </View>
-                        </View>
+                                <View>
+                                    <Field
+                                        inputWrapperStyle={styles.inputWrapperStyle}
+                                        onChangeText={value => this.inputOnchange('email', value)}
+                                        value={email}
+                                        textContentType="emailAddress"
+                                        autoCapitalize="none"
+                                        placeholder="Email"
+                                        blurOnSubmit={false}
+                                        autoFocus={false}
+                                        autoCorrect={false}
+                                        returnKeyType="next"
+                                        error={emailErrors}
+                                        labelText="Email"
+                                    />
+                                    <Field
+                                        inputWrapperStyle={styles.inputWrapperStyle}
+                                        onChangeText={value => this.inputOnchange('password', value)}
+                                        value={password}
+                                        textContentType="password"
+                                        autoCapitalize="none"
+                                        placeholder={i18n.t('auth.password')}
+                                        blurOnSubmit={false}
+                                        autoFocus={false}
+                                        autoCorrect={false}
+                                        returnKeyType="next"
+                                        error={passwordErrors}
+                                        labelText={i18n.t('auth.password')}
+                                        secureTextEntry
+                                    />
+                                    <Field
+                                        inputWrapperStyle={styles.inputWrapperStyle}
+                                        onChangeText={value => this.inputOnchange('confirmPassword', value)}
+                                        value={confirmPassword}
+                                        textContentType="password"
+                                        autoCapitalize="none"
+                                        placeholder={i18n.t('auth.confirmPassword')}
+                                        blurOnSubmit={false}
+                                        autoFocus={false}
+                                        autoCorrect={false}
+                                        returnKeyType="next"
+                                        error={confirmPasswordErrors}
+                                        labelText={i18n.t('auth.confirmPassword')}
+                                        secureTextEntry
+                                    />
 
-                    </LinearGradient>
-                </TouchableWithoutFeedback>
-            </KeyboardAvoidingView>
+                                    <View style={styles.checkboxCoitainer}>
+                                        <View style={styles.checkboxWrapper}>
+                                            <CheckBox
+                                                style={styles.checkbox}
+                                                onClick={this.termOfUse}
+                                                isChecked={checkbox}
+                                                checkBoxColor="#ABB8C8"
+                                            />
+                                            <Text style={styles.checkboxText}>
+                                                {i18n.t('auth.iAgree')}{' '}
+                                            </Text>
+                                            <Link to="/">
+                                                <Text style={styles.checkboxLink}>
+                                                    {i18n.t('auth.termOfUse')}{' '}
+                                                </Text>
+                                            </Link>
+                                            <Text style={styles.checkboxText}>
+                                                {' '}
+                                                {i18n.t('auth.and')}{' '}
+                                            </Text>
+                                            <Link to="/">
+                                                <Text style={styles.checkboxLink}>
+                                                    {i18n.t('auth.privacyPolicy')}
+                                                </Text>
+                                            </Link>
+                                        </View>
+                                        {isError ? (
+                                            <View style={styles.checkboxError}>
+                                                <SvgUri
+                                                    width="20"
+                                                    height="20"
+                                                    source={require('../../../assets/exclamation.svg')}
+                                                />
+                                                <Text style={styles.invalidText}>
+                                                    {i18n.t('error.need_to_agree')}
+                                                </Text>
+                                            </View>
+                                        ) : null}
+                                    </View>
+                                    <Button
+                                        onPress={this.registrationSubmit}
+                                        buttonText={i18n.t('auth.signUp')}
+                                        buttonWrapperStyle={styles.buttonWrapper}
+                                        buttonTextStyle={styles.buttonText}
+                                        loading={loading}
+                                    />
+                                    <View style={styles.bottomWrapper}>
+                                        <Text style={styles.dontHaveAnAccount}>
+                                            {i18n.t('auth.haveAnAccount')}
+                                        </Text>
+                                        <Link to="/">
+                                            <Text style={styles.signUp}>
+                                                {i18n.t('auth.signIn')}
+                                            </Text>
+                                        </Link>
+                                    </View>
+                                </View>
+                            </View>
+                        </TouchableWithoutFeedback>
+                    </ScrollView>
+                </KeyboardAvoidingView>
+            </LinearGradient>
         );
     }
 }
