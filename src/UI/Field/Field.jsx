@@ -39,7 +39,7 @@ const Field = ({
         },
 
         labelStyle: {
-            fontFamily: 'monserratRegular',
+            fontFamily: 'monserrat400',
             color: errorValues.length ? '#EB5757' : '#ABB8C8',
             marginBottom: 6,
             fontSize: 16,
@@ -49,7 +49,7 @@ const Field = ({
         defaultInputStyle: {
             color: errorValues.length ? '#EB5757' : '#ABB8C8',
             height: 28,
-            fontFamily: 'monserratRegular',
+            fontFamily: 'monserrat400',
             fontSize: 16,
             lineHeight: 18,
         },
@@ -61,7 +61,7 @@ const Field = ({
         },
 
         invalidText: {
-            fontFamily: 'monserratRegular',
+            fontFamily: 'monserrat400',
             fontSize: 10,
             color: '#EB5757',
             marginLeft: 4,

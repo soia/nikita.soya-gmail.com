@@ -27,7 +27,8 @@ const App = () => {
     const [fontloaded, setfontloaded] = useState(false);
     const fetchFonts = async () => {
         await Font.loadAsync({
-            monserratRegular: require('./assets/fonts/Montserrat-Regular.ttf'),
+            monserrat400: require('./assets/fonts/Montserrat-Regular.ttf'),
+            monserrat500: require('./assets/fonts/Montserrat-Medium.ttf'),
         });
     };
 

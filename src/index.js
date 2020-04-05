@@ -7,8 +7,9 @@ import i18n from 'i18n-js';
 
 import compose from './utils/compose';
 import Login from './auth/login';
-import Registration from './auth/registration/registration';
-import { registartionPath } from './constants/pathLocation';
+import Registration from './auth/registration';
+import PasswordRestore from './auth/password-restore';
+import { registartionPath, passwordRestorePath } from './constants/pathLocation';
 import LocalizationActions from './actions/localization.action';
 
 class Wallet extends Component {
@@ -34,6 +35,7 @@ class Wallet extends Component {
             <NativeRouter>
                 <Route exact path="/" component={Login} />
                 <Route path={registartionPath} component={Registration} />
+                <Route path={passwordRestorePath} component={PasswordRestore} />
             </NativeRouter>
         );
     }

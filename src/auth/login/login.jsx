@@ -18,7 +18,7 @@ import styles from './style';
 import Field from '../../UI/Field';
 import Button from '../../UI/Button';
 import compose from '../../utils/compose';
-import { registartionPath } from '../../constants/pathLocation';
+import { registartionPath, passwordRestorePath } from '../../constants/pathLocation';
 import withTranslation from '../../hoc/i18n-hoc';
 
 class Login extends Component {
@@ -297,7 +297,7 @@ class Login extends Component {
                             />
                             <View>
                                 <Link
-                                    to={registartionPath}
+                                    to={passwordRestorePath}
                                     style={styles.forgotPasswordLink}
                                 >
                                     <Text style={styles.forgotPassword}>

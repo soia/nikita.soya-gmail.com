@@ -1,37 +1,37 @@
-import {
-    StyleSheet,
-    Dimensions,
-} from 'react-native';
+import { StyleSheet } from 'react-native';
 
 const styles = StyleSheet.create({
     container: {
         flex: 1,
-        justifyContent: 'flex-end',
+        justifyContent: 'space-between',
         paddingHorizontal: 25,
         paddingVertical: 25,
         paddingTop: 60,
     },
 
-    logoWrapper: {
+    header: {
+        flexDirection: 'row',
         alignItems: 'center',
-        marginBottom: Dimensions.get('window').height / 10,
+        justifyContent: 'center',
+        marginBottom: 40,
+    },
+
+    arrowBack: {
+        position: 'absolute',
+        top: 0,
+        left: 0,
+        right: 0,
+        bottom: 0,
+    },
+
+    passwordRestoreTitle: {
+        fontFamily: 'monserrat500',
+        fontSize: 16,
+        color: '#B2947B',
     },
 
     inputWrapperStyle: {
         marginTop: 22,
-    },
-
-    forgotPassword: {
-        fontFamily: 'monserrat400',
-        fontSize: 12,
-        textDecorationLine: 'underline',
-        color: '#ABB8C8',
-        marginTop: 11,
-    },
-
-    forgotPasswordLink: {
-        marginBottom: 60,
-        alignSelf: 'flex-end',
     },
 
     buttonWrapper: {

@@ -27,7 +27,7 @@ class Registration extends Component {
     render() {
         const styles = StyleSheet.create({
             container: {
-                fontFamily: 'monserratRegular',
+                fontFamily: 'monserrat400',
                 flex: 1,
                 backgroundColor: '#fff',
                 alignItems: 'center',
