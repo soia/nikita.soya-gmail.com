@@ -471,25 +471,25 @@ class Registration extends Component {
         } = this.state;
 
         return (
-            <KeyboardAvoidingView
-                behavior={Platform.OS === 'ios' ? 'padding' : 'height'}
-                style={{ flex: 1 }}
-            >
-                <TouchableWithoutFeedback onPress={Keyboard.dismiss} accessible={false}>
-                    <LinearGradient
-                        colors={['#203752', '#204362']}
-                        start={{ x: 0.95, y: -0.14 }}
-                        end={{ x: 0.95, y: 0.68 }}
-                        locations={[0.2, 1]}
-                        style={styles.container}
+
+            <TouchableWithoutFeedback onPress={Keyboard.dismiss} accessible={false}>
+                <LinearGradient
+                    colors={['#203752', '#204362']}
+                    start={{ x: 0.95, y: -0.14 }}
+                    end={{ x: 0.95, y: 0.68 }}
+                    locations={[0.2, 1]}
+                    style={styles.container}
+                >
+                    <View style={styles.logoWrapper}>
+                        <SvgUri
+                            width="215"
+                            height="215"
+                            source={require('../../../assets/logo-with-label.svg')}
+                        />
+                    </View>
+                    <KeyboardAvoidingView
+                        behavior={Platform.OS === 'ios' ? 'padding' : 'height'}
                     >
-                        <View style={styles.logoWrapper}>
-                            <SvgUri
-                                width="215"
-                                height="215"
-                                source={require('../../../assets/logo-with-label.svg')}
-                            />
-                        </View>
                         <View>
                             <Field
                                 inputWrapperStyle={styles.inputWrapperStyle}
@@ -524,7 +524,7 @@ class Registration extends Component {
                                 inputWrapperStyle={styles.inputWrapperStyle}
                                 onChangeText={value => this.inputOnchange('confirmPassword', value)}
                                 value={confirmPassword}
-                                textContentType="confirmPassword"
+                                textContentType="password"
                                 autoCapitalize="none"
                                 placeholder={i18n.t('auth.confirmPassword')}
                                 blurOnSubmit={false}
@@ -595,9 +595,10 @@ class Registration extends Component {
                                 </View>
                             </View>
                         </View>
-                    </LinearGradient>
-                </TouchableWithoutFeedback>
-            </KeyboardAvoidingView>
+                    </KeyboardAvoidingView>
+                </LinearGradient>
+            </TouchableWithoutFeedback>
+
         );
     }
 }

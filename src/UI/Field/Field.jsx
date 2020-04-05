@@ -98,8 +98,8 @@ const Field = ({
                 <View style={style.inputLine} />
                 {errorValues.length > 0 ? (
                     <View>
-                        {errorValues.map(item => (
-                            <View key={placeholder} style={style.invalidWrapper}>
+                        {errorValues.map((item, index) => (
+                            <View key={`${index}${placeholder}`} style={style.invalidWrapper}>
                                 <SvgUri
                                     width="20"
                                     height="20"
