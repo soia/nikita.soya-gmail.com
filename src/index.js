@@ -9,7 +9,8 @@ import compose from './utils/compose';
 import Login from './auth/login';
 import Registration from './auth/registration';
 import PasswordRestore from './auth/password-restore';
-import { registartionPath, passwordRestorePath } from './constants/pathLocation';
+import emailConformation from './auth/email-confirmation';
+import { registartionPath, passwordRestorePath, emailConfirmationPath } from './constants/pathLocation';
 import LocalizationActions from './actions/localization.action';
 
 class Wallet extends Component {
@@ -35,6 +36,7 @@ class Wallet extends Component {
             <NativeRouter>
                 <Route exact path="/" component={Login} />
                 <Route path={registartionPath} component={Registration} />
+                <Route path={emailConfirmationPath} component={emailConformation} />
                 <Route path={passwordRestorePath} component={PasswordRestore} />
             </NativeRouter>
         );

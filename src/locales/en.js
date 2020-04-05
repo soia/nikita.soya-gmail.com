@@ -13,6 +13,9 @@ const en = {
         termOfUse: 'Term of use',
         and: 'and',
         privacyPolicy: 'Privacy policy',
+        emailConfirmations: 'Email confirmations',
+        confirm: 'Confirm',
+        emailCode: 'Email code',
     },
     error: {
         title: 'Error',
