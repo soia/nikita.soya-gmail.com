@@ -16,6 +16,8 @@ const en = {
         emailConfirmations: 'Email confirmations',
         confirm: 'Confirm',
         emailCode: 'Email code',
+        submit: 'Submit',
+        authenticatorCode: 'Authenticaton Code',
     },
     error: {
         title: 'Error',

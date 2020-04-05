@@ -10,8 +10,15 @@ import Login from './auth/login';
 import Registration from './auth/registration';
 import PasswordRestore from './auth/password-restore';
 import emailConformation from './auth/email-confirmation';
-import { registartionPath, passwordRestorePath, emailConfirmationPath } from './constants/pathLocation';
+import twoFactorAuth from './auth/two-factor-auth';
+import {
+    registartionPath,
+    passwordRestorePath,
+    emailConfirmationPath,
+    twoFAPath,
+} from './constants/pathLocation';
 import LocalizationActions from './actions/localization.action';
+
 
 class Wallet extends Component {
     componentDidMount() {
@@ -38,6 +45,7 @@ class Wallet extends Component {
                 <Route path={registartionPath} component={Registration} />
                 <Route path={emailConfirmationPath} component={emailConformation} />
                 <Route path={passwordRestorePath} component={PasswordRestore} />
+                <Route path={twoFAPath} component={twoFactorAuth} />
             </NativeRouter>
         );
     }
