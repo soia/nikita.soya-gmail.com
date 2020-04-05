@@ -15,6 +15,7 @@ import {
     ScrollView,
 } from 'react-native';
 
+import { userActions } from '../../actions';
 import styles from './style';
 import Field from '../../UI/Field';
 import Button from '../../UI/Button';
@@ -429,6 +430,7 @@ class Registration extends Component {
             confirmPasswordErrors,
             checkBoxErrors,
         } = this.state;
+        const { registaration } = this.props;
         const { user } = this.state;
 
         const copyEmailErrors = { ...emailErrors };
@@ -452,7 +454,10 @@ class Registration extends Component {
             && Object.keys(checkBoxErrors).length === 0
         ) {
             if (email && password && confirmPassword && checkbox) {
-                console.log(user, 'SUCCESS REGISTRATION');
+                registaration(user);
+                this.setState({
+                    loading: true,
+                });
             }
         }
     };
@@ -609,10 +614,12 @@ class Registration extends Component {
 
 Registration.defaultProps = {
     i18n: {},
+    registaration: () => {},
 };
 
 Registration.propTypes = {
     i18n: PropTypes.object,
+    registaration: PropTypes.func,
 };
 
 const mapStateToProps = state => {
@@ -625,4 +632,10 @@ const mapStateToProps = state => {
     };
 };
 
-export default compose(withTranslation, connect(mapStateToProps))(Registration);
+const mapDispatchToProps = dispatch => ({
+    registaration(user) {
+        dispatch(userActions.register(user, dispatch));
+    },
+});
+
+export default compose(withTranslation, connect(mapStateToProps, mapDispatchToProps))(Registration);

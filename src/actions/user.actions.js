@@ -58,12 +58,12 @@ function register(user) {
         userService.register(user).then(
             user => {
                 dispatch(success(user));
-                dispatch(alertActions.success(authModalConstants.CHECK_EMAIL_FOR_FINISH_REGISTRATION));
+                dispatch(alertActions.alertActionsSuccess(authModalConstants.CHECK_EMAIL_FOR_FINISH_REGISTRATION));
             },
             error => {
                 message.error(error, 2);
                 dispatch(failure(error.toString()));
-                dispatch(alertActions.error(error.toString()));
+                dispatch(alertActions.alertActionsError(error.toString()));
             },
         );
     };

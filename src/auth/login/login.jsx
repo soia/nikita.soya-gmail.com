@@ -235,7 +235,6 @@ class Login extends Component {
         ) {
             if (email && password) {
                 login(email, password, history);
-                console.log('SUCCESSFUL LOGIN');
                 this.setState({
                     loading: true,
                 });
