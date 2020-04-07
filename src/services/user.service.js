@@ -70,7 +70,6 @@ const login = (username, password) => {
     };
 
     return axios(options).then(user => {
-        console.log(user, 'useruseruseruseruseruseruseruseruser');
         saveUserData(JSON.stringify(user.data));
         saveUpadateTokenTime(moment().unix());
         return user;

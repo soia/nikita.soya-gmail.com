@@ -19,6 +19,7 @@ import { userActions } from '../../actions';
 import styles from './style';
 import Field from '../../UI/Field';
 import Button from '../../UI/Button';
+import BottomPopUp from '../../UI/Bottom-pop-up';
 import compose from '../../utils/compose';
 import { registartionPath, passwordRestorePath } from '../../constants/pathLocation';
 import withTranslation from '../../hoc/i18n-hoc';
@@ -214,6 +215,7 @@ class Login extends Component {
 
     loginSubmit = async () => {
         await this.validateFields();
+
         const { history, login } = this.props;
         const {
             email, password, passwordErrors, emailErrors,
@@ -325,6 +327,7 @@ class Login extends Component {
                                     </Link>
                                 </View>
                             </View>
+                            <BottomPopUp />
                         </View>
                     </LinearGradient>
                 </TouchableWithoutFeedback>
