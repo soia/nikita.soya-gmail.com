@@ -28,7 +28,6 @@ class Login extends Component {
     state = {
         email: '',
         password: '',
-        loading: false,
         emailErrors: {
             emailLengthError: '',
             emailCharactersError: '',
@@ -237,17 +236,14 @@ class Login extends Component {
         ) {
             if (email && password) {
                 login(email, password, history);
-                this.setState({
-                    loading: true,
-                });
             }
         }
     };
 
     render() {
-        const { i18n } = this.props;
+        const { i18n, loading } = this.props;
         const {
-            email, password, loading, emailErrors, passwordErrors,
+            email, password, emailErrors, passwordErrors,
         } = this.state;
 
         return (
@@ -340,21 +336,25 @@ Login.defaultProps = {
     i18n: {},
     login: () => {},
     history: {},
+    loading: false,
 };
 
 Login.propTypes = {
     i18n: PropTypes.object,
     login: PropTypes.func,
     history: PropTypes.object,
+    loading: PropTypes.bool,
 };
 
 const mapStateToProps = state => {
     const {
         localization: { locale },
+        authentication: { loading },
     } = state;
 
     return {
         locale,
+        loading,
     };
 };
 

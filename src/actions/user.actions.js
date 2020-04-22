@@ -1,11 +1,17 @@
 /* eslint-disable  */
 import { AsyncStorage } from 'react-native';
 import {
-    userConstants, tradePath, authModalConstants,
+    userConstants, tradePath, authModalConstants, emailConfirmationPath,
 } from '../constants';
 import { userService } from '../services/user.service';
 import { authModalActions } from './authModal.actions';
+import { actionSheet } from './action-sheet.action';
 import { alertActions } from './alert.actions';
+import i18n from 'i18n-js';
+import { en, ru } from '../locales';
+
+i18n.fallbacks = true;
+i18n.translations = { en, ru };
 
 function login(username, password, history) {
     function loginRequestActions(user) {
@@ -32,6 +38,8 @@ function login(username, password, history) {
                 if (error.response) {
                     console.log(error.response.data.error_description);
                 }
+
+                dispatch(actionSheet.showPopUp(true, error.toString(), i18n.t('general.close')));
                 dispatch(loginFailureActions(error.toString()));
                 dispatch(alertActions.alertActionsError(error.toString()));
             });
@@ -51,16 +59,19 @@ function logout() {
     return { type: userConstants.LOGOUT };
 }
 
-function register(user) {
+function register(user, dispatch, history) {
     return dispatch => {
         dispatch(request());
 
-        userService.register(user).then(
+        userService.register(user, history).then(
             user => {
                 dispatch(success(user));
                 dispatch(alertActions.alertActionsSuccess(authModalConstants.CHECK_EMAIL_FOR_FINISH_REGISTRATION));
+                history.push(`${emailConfirmationPath}`);
+                dispatch(actionSheet.showPopUp(false, i18n.t('auth.checkActivationCode'), "Ok"));
             },
             error => {
+                dispatch(actionSheet.showPopUp(true, error.toString(), i18n.t('general.close')));
                 dispatch(failure(error.toString()));
                 dispatch(alertActions.alertActionsError(error.toString()));
             },

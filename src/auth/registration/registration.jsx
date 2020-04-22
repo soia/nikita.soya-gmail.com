@@ -1,6 +1,7 @@
 /* eslint-disable global-require */
 import React, { Component } from 'react';
 import { connect } from 'react-redux';
+import { withRouter } from 'react-router-dom';
 import PropTypes from 'prop-types';
 import SvgUri from 'expo-svg-uri';
 import { Link } from 'react-router-native';
@@ -19,6 +20,7 @@ import { userActions } from '../../actions';
 import styles from './style';
 import Field from '../../UI/Field';
 import Button from '../../UI/Button';
+import BottomPopUp from '../../UI/Bottom-pop-up';
 import compose from '../../utils/compose';
 import withTranslation from '../../hoc/i18n-hoc';
 
@@ -46,7 +48,6 @@ class Registration extends Component {
             confirmPasswordLengthError: '',
         },
         checkBoxErrors: {},
-        loading: false,
     };
 
     inputOnchange = (name, value) => {
@@ -430,7 +431,7 @@ class Registration extends Component {
             confirmPasswordErrors,
             checkBoxErrors,
         } = this.state;
-        const { registaration } = this.props;
+        const { registaration, history } = this.props;
         const { user } = this.state;
 
         const copyEmailErrors = { ...emailErrors };
@@ -454,18 +455,14 @@ class Registration extends Component {
             && Object.keys(checkBoxErrors).length === 0
         ) {
             if (email && password && confirmPassword && checkbox) {
-                registaration(user);
-                this.setState({
-                    loading: true,
-                });
+                registaration(user, history);
             }
         }
     };
 
     render() {
-        const { i18n } = this.props;
+        const { i18n, loading } = this.props;
         const {
-            loading,
             emailErrors,
             passwordErrors,
             confirmPasswordErrors,
@@ -602,6 +599,7 @@ class Registration extends Component {
                                             </Text>
                                         </Link>
                                     </View>
+                                    <BottomPopUp />
                                 </View>
                             </View>
                         </TouchableWithoutFeedback>
@@ -615,27 +613,37 @@ class Registration extends Component {
 Registration.defaultProps = {
     i18n: {},
     registaration: () => {},
+    history: {},
+    loading: false,
 };
 
 Registration.propTypes = {
     i18n: PropTypes.object,
     registaration: PropTypes.func,
+    history: PropTypes.object,
+    loading: PropTypes.bool,
 };
 
 const mapStateToProps = state => {
     const {
         localization: { locale },
+        registration: { loading },
     } = state;
 
     return {
         locale,
+        loading,
     };
 };
 
 const mapDispatchToProps = dispatch => ({
-    registaration(user) {
-        dispatch(userActions.register(user, dispatch));
+    registaration(user, history) {
+        dispatch(userActions.register(user, dispatch, history));
     },
 });
 
-export default compose(withTranslation, connect(mapStateToProps, mapDispatchToProps))(Registration);
+export default compose(
+    withTranslation,
+    connect(mapStateToProps, mapDispatchToProps),
+    withRouter,
+)(Registration);

@@ -4,22 +4,25 @@ import { connect } from 'react-redux';
 import PropTypes from 'prop-types';
 import { Link } from 'react-router-native';
 import { LinearGradient } from 'expo-linear-gradient';
+import { withRouter } from 'react-router-dom';
 import SvgUri from 'expo-svg-uri';
 import {
-    View,
-    Text,
-    Keyboard,
-    TouchableWithoutFeedback,
+    View, Text, Keyboard, TouchableWithoutFeedback,
 } from 'react-native';
-
 import styles from './style';
+import BottomPopUp from '../../UI/Bottom-pop-up';
 import Field from '../../UI/Field';
 import Button from '../../UI/Button';
 import compose from '../../utils/compose';
 import { registartionPath } from '../../constants/pathLocation';
 import withTranslation from '../../hoc/i18n-hoc';
+import PostService from '../../services/post-service';
+import { actionSheet } from '../../actions';
+import getEnvVars from '../../../environment';
 
 class EmailConformation extends Component {
+    postService = new PostService();
+
     state = {
         code: '',
         loading: false,
@@ -61,11 +64,24 @@ class EmailConformation extends Component {
         }
     };
 
+    handleResponse = response => response.text().then(text => {
+        const data = text && JSON.parse(text);
+        if (!response.ok) {
+            const error = (data && data.message) || response.statusText;
+            return Promise.reject(error);
+        }
+
+        return data;
+    });
+
     emailConformationSubmit = async () => {
         await this.validateFields();
-        const {
-            code, codeErrors,
-        } = this.state;
+        const { i18n, dispatch, history } = this.props;
+
+        const { code, codeErrors } = this.state;
+        this.setState({
+            loading: true,
+        });
 
         const copyEmailErrors = { ...codeErrors };
 
@@ -73,23 +89,44 @@ class EmailConformation extends Component {
             if (!copyEmailErrors[key]) delete copyEmailErrors[key];
         });
 
-        if (
-            Object.keys(copyEmailErrors).length === 0
-        ) {
+        if (Object.keys(copyEmailErrors).length === 0) {
             if (code) {
-                console.log('SUCCESSFUL EMAIL CONFIRMATION');
-                this.setState({
-                    loading: true,
-                });
+                const requestOptions = {
+                    method: 'POST',
+                    headers: { 'Content-Type': 'application/json' },
+                };
+
+                fetch(
+                    `${getEnvVars.REACT_APP_API_URL_AUTH_SERVICE}/registration/verify/${code}`,
+                    requestOptions,
+                )
+                    .then(this.handleResponse)
+                    .then(() => {
+                        this.setState({
+                            loading: false,
+                        });
+
+                        // history.push();
+                    })
+                    .catch(() => {
+                        dispatch(
+                            actionSheet.showPopUp(
+                                true,
+                                i18n.t('auth.codeNotFound'),
+                                i18n.t('general.close'),
+                            ),
+                        );
+                        this.setState({
+                            loading: false,
+                        });
+                    });
             }
         }
     };
 
     render() {
         const { i18n } = this.props;
-        const {
-            code, loading, codeErrors,
-        } = this.state;
+        const { code, loading, codeErrors } = this.state;
 
         return (
             <TouchableWithoutFeedback onPress={Keyboard.dismiss} accessible={false}>
@@ -135,6 +172,7 @@ class EmailConformation extends Component {
                         buttonTextStyle={styles.buttonText}
                         loading={loading}
                     />
+                    <BottomPopUp />
                 </LinearGradient>
             </TouchableWithoutFeedback>
         );
@@ -143,10 +181,14 @@ class EmailConformation extends Component {
 
 EmailConformation.defaultProps = {
     i18n: {},
+    history: {},
+    dispatch: () => {},
 };
 
 EmailConformation.propTypes = {
     i18n: PropTypes.object,
+    history: PropTypes.object,
+    dispatch: PropTypes.func,
 };
 
 const mapStateToProps = state => {
@@ -159,4 +201,8 @@ const mapStateToProps = state => {
     };
 };
 
-export default compose(withTranslation, connect(mapStateToProps))(EmailConformation);
+export default compose(
+    withTranslation,
+    connect(mapStateToProps),
+    withRouter,
+)(EmailConformation);

@@ -18,6 +18,8 @@ const en = {
         emailCode: 'Email code',
         submit: 'Submit',
         authenticatorCode: 'Authenticaton Code',
+        checkActivationCode: 'Check email and copy activation code',
+        codeNotFound: 'Code not found',
     },
     error: {
         title: 'Error',
@@ -31,6 +33,9 @@ const en = {
         only_latin_letters_and_numbers_allowed: 'Only latin letters and numbers are allowed.',
         password_does_not_match: 'Password does not match',
         need_to_agree: 'Confirm terms of use',
+    },
+    general: {
+        close: 'Close',
     },
 };
 

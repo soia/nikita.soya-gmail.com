@@ -39,8 +39,8 @@ export default class PostService {
         document.location.reload(true);
     };
 
-    test = async data => {
-        const res = await this.getResource('/bot-configs/', data);
+    registrationVerify = async token => {
+        const res = await this.getResource(`/registration/verify/${token}`);
         return res;
     };
 }

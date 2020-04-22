@@ -1,7 +1,7 @@
 import Constants from 'expo-constants';
 
-const REACT_APP_API_URL_AUTH_SERVICE = 'http://bitcobit.profitserver.in.ua:8090/uaa';
-const REACT_APP_API_URL_PROVIDER = 'http://bitcobit.profitserver.in.ua:8090/uaa';
+const REACT_APP_API_URL_AUTH_SERVICE = 'http://bitcobit.profitserver.in.ua:8081';
+const REACT_APP_API_URL_PROVIDER = 'http://bitcobit.profitserver.in.ua:8090';
 
 const ENV = {
     dev: {

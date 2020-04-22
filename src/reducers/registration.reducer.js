@@ -7,6 +7,7 @@ export function registration(state = {}, action) {
         case userConstants.REGISTER_REQUEST:
             return {
                 registering: true,
+                loading: true,
             };
         case userConstants.REGISTER_SUCCESS:
             return {};
