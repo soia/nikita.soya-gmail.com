@@ -21,7 +21,9 @@ import Field from '../../UI/Field';
 import Button from '../../UI/Button';
 import BottomPopUp from '../../UI/Bottom-pop-up';
 import compose from '../../utils/compose';
-import { registartionPath, passwordRestorePath } from '../../constants/pathLocation';
+import {
+    registartionPath, passwordRestorePath, personalAreaPath, homePagePath,
+} from '../../constants';
 import withTranslation from '../../hoc/i18n-hoc';
 
 class Login extends Component {
@@ -39,6 +41,14 @@ class Login extends Component {
             passwordLettersError: '',
         },
     };
+
+    componentDidMount() {
+        const { loggedIn, history } = this.props;
+
+        if (loggedIn) {
+            history.push(`${personalAreaPath}${homePagePath}`);
+        }
+    }
 
     inputOnchange = (name, value) => {
         const { i18n } = this.props;
@@ -337,6 +347,7 @@ Login.defaultProps = {
     login: () => {},
     history: {},
     loading: false,
+    loggedIn: false,
 };
 
 Login.propTypes = {
@@ -344,17 +355,19 @@ Login.propTypes = {
     login: PropTypes.func,
     history: PropTypes.object,
     loading: PropTypes.bool,
+    loggedIn: PropTypes.bool,
 };
 
 const mapStateToProps = state => {
     const {
         localization: { locale },
-        authentication: { loading },
+        authentication: { loading, loggedIn },
     } = state;
 
     return {
         locale,
         loading,
+        loggedIn,
     };
 };
 

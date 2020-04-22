@@ -16,9 +16,10 @@ import {
     passwordRestorePath,
     emailConfirmationPath,
     twoFAPath,
-} from './constants/pathLocation';
+    personalAreaPath,
+} from './constants';
 import LocalizationActions from './actions/localization.action';
-
+import PersonalArea from './pages/personal-area/personal-area';
 
 class Wallet extends Component {
     componentDidMount() {
@@ -42,6 +43,7 @@ class Wallet extends Component {
         return (
             <NativeRouter>
                 <Route exact path="/" component={Login} />
+                <Route path={personalAreaPath} component={PersonalArea} />
                 <Route path={registartionPath} component={Registration} />
                 <Route path={emailConfirmationPath} component={emailConformation} />
                 <Route path={passwordRestorePath} component={PasswordRestore} />

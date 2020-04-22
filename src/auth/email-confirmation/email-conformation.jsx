@@ -14,7 +14,7 @@ import BottomPopUp from '../../UI/Bottom-pop-up';
 import Field from '../../UI/Field';
 import Button from '../../UI/Button';
 import compose from '../../utils/compose';
-import { registartionPath } from '../../constants/pathLocation';
+import { registartionPath, personalAreaPath, homePagePath } from '../../constants/pathLocation';
 import withTranslation from '../../hoc/i18n-hoc';
 import PostService from '../../services/post-service';
 import { actionSheet } from '../../actions';
@@ -106,7 +106,7 @@ class EmailConformation extends Component {
                             loading: false,
                         });
 
-                        // history.push();
+                        history.push(`${personalAreaPath}${homePagePath}`);
                     })
                     .catch(() => {
                         dispatch(

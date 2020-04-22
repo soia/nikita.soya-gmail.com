@@ -2,6 +2,7 @@ import { AsyncStorage } from 'react-native';
 import { userConstants } from '../constants';
 
 const user = AsyncStorage.getItem('user');
+
 const initialState = user ? { loggedIn: true, loading: false, user } : {};
 
 function authentication(state = initialState, action) {

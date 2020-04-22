@@ -1,7 +1,12 @@
 /* eslint-disable  */
 import { AsyncStorage } from 'react-native';
 import {
-    userConstants, tradePath, authModalConstants, emailConfirmationPath,
+    userConstants,
+    tradePath,
+    authModalConstants,
+    emailConfirmationPath,
+    personalAreaPath,
+    homePagePath,
 } from '../constants';
 import { userService } from '../services/user.service';
 import { authModalActions } from './authModal.actions';
@@ -24,25 +29,32 @@ function login(username, password, history) {
         return { type: userConstants.LOGIN_FAILURE, error };
     }
 
-    return dispatch => {
+    return (dispatch) => {
         dispatch(loginRequestActions({ username }));
 
-        userService.login(username, password, history)
-            .then(user => {
+        userService.login(username, password, history).then(
+            (user) => {
                 dispatch(loginSuccessActions(user.data));
                 dispatch(alertActions.alertActionsSuccess('Authorization successful'));
-                // history.push(`${tradePath}`);
+                history.push(`${personalAreaPath}${homePagePath}`);
                 console.log('Authorization successful');
             },
-            error => {
+            (error) => {
                 if (error.response) {
                     console.log(error.response.data.error_description);
                 }
 
-                dispatch(actionSheet.showPopUp(true, error.toString(), i18n.t('general.close')));
+                dispatch(
+                    actionSheet.showPopUp(
+                        true,
+                        error.toString(),
+                        i18n.t('general.close'),
+                    ),
+                );
                 dispatch(loginFailureActions(error.toString()));
                 dispatch(alertActions.alertActionsError(error.toString()));
-            });
+            },
+        );
     };
 }
 
@@ -60,18 +72,34 @@ function logout() {
 }
 
 function register(user, dispatch, history) {
-    return dispatch => {
+    return (dispatch) => {
         dispatch(request());
 
         userService.register(user, history).then(
-            user => {
+            (user) => {
                 dispatch(success(user));
-                dispatch(alertActions.alertActionsSuccess(authModalConstants.CHECK_EMAIL_FOR_FINISH_REGISTRATION));
+                dispatch(
+                    alertActions.alertActionsSuccess(
+                        authModalConstants.CHECK_EMAIL_FOR_FINISH_REGISTRATION,
+                    ),
+                );
                 history.push(`${emailConfirmationPath}`);
-                dispatch(actionSheet.showPopUp(false, i18n.t('auth.checkActivationCode'), "Ok"));
+                dispatch(
+                    actionSheet.showPopUp(
+                        false,
+                        i18n.t('auth.checkActivationCode'),
+                        'Ok',
+                    ),
+                );
             },
-            error => {
-                dispatch(actionSheet.showPopUp(true, error.toString(), i18n.t('general.close')));
+            (error) => {
+                dispatch(
+                    actionSheet.showPopUp(
+                        true,
+                        error.toString(),
+                        i18n.t('general.close'),
+                    ),
+                );
                 dispatch(failure(error.toString()));
                 dispatch(alertActions.alertActionsError(error.toString()));
             },
