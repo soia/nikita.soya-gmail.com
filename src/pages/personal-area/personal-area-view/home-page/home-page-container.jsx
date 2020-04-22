@@ -11,7 +11,7 @@ import {
 } from 'react-native';
 // import { bindActionCreators } from 'redux';
 import { withTranslation } from 'react-i18next';
-
+import BottomNavigation from '../../../../UI/bottom-navigation';
 import HomePageView from './home-page-view';
 // import Spinner from '../../../../spinner';
 // import ErrorIndicator from '../../../error-page/error-indicator';
@@ -48,6 +48,7 @@ export class HomePage extends Component {
                         {errorMessage}
                         {spinner}
                         {content}
+                        <BottomNavigation />
                     </ScrollView>
                 </TouchableWithoutFeedback>
             </KeyboardAvoidingView>

@@ -36,6 +36,11 @@ const en = {
     },
     general: {
         close: 'Close',
+        wallet: 'Wallet',
+        buy: 'Buy',
+        sell: 'Sell',
+        exchange: 'Exchange',
+        settings: 'Settings',
     },
 };
 
